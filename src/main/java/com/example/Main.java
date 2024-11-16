@@ -9,11 +9,14 @@ public class Main {
     public static void main(String[] args) throws IOException {
         
         ServerSocket serverSocket = new ServerSocket(3000);
+        ServerSocket serverSocket2 = new ServerSocket(4000);
         ArrayList arrUser = new ArrayList<String>();
+        Chat chat = new Chat();
         System.out.println("Server partito");
         while(true){
             Socket socket = serverSocket.accept();
-            GestoreServer gs = new GestoreServer(socket , arrUser);
+            Socket socket2 = serverSocket2.accept();
+            GestoreServer gs = new GestoreServer(socket, socket2, arrUser, chat);
             gs.start();
         }
     }

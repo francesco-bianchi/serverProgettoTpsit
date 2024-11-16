@@ -20,7 +20,7 @@ public class Contatto {
     }
 
     public void aggiungiMessaggio(String messaggio) {
-        this.messaggi.add(messaggio);
+        messaggi.add(messaggio);
     }
 }
 
