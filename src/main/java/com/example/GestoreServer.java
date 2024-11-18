@@ -51,9 +51,8 @@ public class GestoreServer extends Thread {
             do { // fai switch
                 String lista;
                 fraseRic = in.readLine();
-                System.out.println(fraseRic);
                 fraseSplit = fraseRic.split(":"); // Si divide la stringa per controllare ciò che l'utente passa
-
+                boolean prima = true;
                 switch (fraseSplit[0]) {
                     case "C":
 
@@ -84,9 +83,23 @@ public class GestoreServer extends Thread {
                         break;
 
                     case "PRIV":
+                    boolean inviato = false;
+                    if(prima){
+                        for (int i = 0; i < chat.getThreads().size(); i++) {
+                            if (chat.getThreads().get(i).getName().equals(fraseSplit[1])) {
+                                chat.getThreads().get(i).inviaClient(this.getName() + ": " + fraseSplit[2]);
+                                inviato = true;
+                            }
+                        }
+                        if (!inviato) {
+                            out.writeBytes("KO\n");
+                        }
+                    }
+                    else{
+                        prima = false;
                         String mess = in.readLine();
+                        System.out.println(mess);
                         String[] messSplit = mess.split(":");
-                        boolean inviato = false;
 
                         for (int i = 0; i < chat.getThreads().size(); i++) {
                             if (chat.getThreads().get(i).getName().equals(messSplit[1])) {
@@ -95,8 +108,10 @@ public class GestoreServer extends Thread {
                             }
                         }
                         if (!inviato) {
-                            out.writeBytes("NONE\n");
+                            out.writeBytes("KO\n");
                         }
+                    }
+                       
                         break;
 
                     default:
